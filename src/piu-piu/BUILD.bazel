@@ -1,0 +1,11 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "piu-piu",
+    srcs = [
+        "main.cpp",
+        "timer.cpp",
+        "timer.hpp",
+    ],
+    deps = ["//src/sdlxx"],
+)

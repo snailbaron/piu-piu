@@ -1,0 +1,4 @@
+common --copt=-std=c++26
+common --compilation_mode=dbg
+
+common:release --compilation_mode=opt

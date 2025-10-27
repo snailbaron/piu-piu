@@ -1,0 +1,15 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "sdlxx",
+    srcs = [
+        "error.cpp",
+        "error.hpp",
+        "sdlxx.cpp",
+        "wrapper.hpp",
+    ],
+    hdrs = ["sdlxx.hpp"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+    deps = ["//deps:sdl"],
+)

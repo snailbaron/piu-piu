@@ -1,0 +1,18 @@
+load("//bazel:aseprite.bzl", "aseprite_export", "aseprite_export_sheet")
+
+aseprite_files = [
+    "house.aseprite",
+    "human.aseprite",
+    "path-ground.aseprite",
+    "tree.aseprite",
+]
+
+aseprite_export(
+    name = "images",
+    srcs = aseprite_files,
+)
+
+aseprite_export_sheet(
+    name = "sheet",
+    srcs = aseprite_files,
+)

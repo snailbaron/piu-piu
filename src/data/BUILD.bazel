@@ -1,0 +1,6 @@
+load("//bazel:flatbuffers.bzl", "fb_header")
+
+fb_header(
+    name = "data",
+    src = "data.fbs",
+)

@@ -3,6 +3,7 @@
 #include "error.hpp"
 
 #include <mutex>
+#include <source_location>
 
 namespace sdl {
 
@@ -11,6 +12,23 @@ namespace {
 std::mutex initMutex;
 bool initialized = false;
 
+void check(
+    bool success, std::source_location sl = std::source_location::current())
+{
+    if (!success) {
+        throw x::Error{SDL_GetError(), sl};
+    }
+}
+
+template <class T>
+T* check(T* ptr, std::source_location sl = std::source_location::current())
+{
+    if (ptr == nullptr) {
+        throw x::Error{SDL_GetError(), sl};
+    }
+    return ptr;
+}
+
 } // namespace
 
 Init::Init(SDL_InitFlags flags)
@@ -18,7 +36,7 @@ Init::Init(SDL_InitFlags flags)
     auto lock = std::lock_guard{initMutex};
 
     if (initialized) {
-        throw Error{"sdlxx is initialized twice"};
+        throw x::Error{"sdlxx is initialized twice"};
     }
     initialized = true;
 

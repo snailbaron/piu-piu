@@ -1,4 +1,8 @@
 common --copt=-std=c++26
 common --compilation_mode=dbg
+common --copt=-fdiagnostics-color
+
+common --per_file_copt=//src/.*@-Wall,-Wextra,-Wpedantic
+common --per_file_copt=//src/.*@-Werror
 
 common:release --compilation_mode=opt

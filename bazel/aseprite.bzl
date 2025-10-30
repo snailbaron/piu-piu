@@ -63,6 +63,7 @@ aseprite_export_sheet = rule(
         "srcs": attr.label_list(
             allow_files = True,
             doc = "source .aseprite files",
+            mandatory = True,
         ),
     },
 )

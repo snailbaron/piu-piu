@@ -2,6 +2,8 @@
 
 #include "wrapper.hpp"
 
+#include <x/error.hpp>
+
 #include <SDL3/SDL.h>
 
 #include <cstdint>

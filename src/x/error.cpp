@@ -1,10 +1,8 @@
 #include "error.hpp"
 
-#include <SDL3/SDL.h>
-
 #include <format>
 
-namespace sdl {
+namespace x {
 
 Error::Error(std::string_view message, std::source_location sl)
     : _message(
@@ -17,20 +15,9 @@ Error::Error(std::string_view message, std::source_location sl)
               message))
 { }
 
-Error::Error(std::source_location sl)
-    : Error{SDL_GetError(), sl}
-{ }
-
 const char* Error::what() const noexcept
 {
     return _message.c_str();
 }
 
-void check(bool success, std::source_location sl)
-{
-    if (!success) {
-        throw Error{sl};
-    }
-}
-
-} // namespace sdl
+} // namespace x

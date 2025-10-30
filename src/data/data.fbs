@@ -1,0 +1,26 @@
+namespace data;
+
+enum Something : uint8 {
+  One,
+  Two,
+  Three,
+}
+
+struct Frame {
+  x:int32;
+  y:int32;
+  w:int32;
+  h:int32;
+}
+
+struct Sprite {
+  start_frame:uint32;
+  end_frame:uint32;
+}
+
+table Data {
+  sheet:[uint8];
+  frames:[Frame];
+}
+
+root_type Data;

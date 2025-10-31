@@ -12,6 +12,12 @@ Checks:
   - performance-*
   - portability-*
   - readability-*
+  - -cppcoreguidelines-pro-type-vararg
+  - -hicpp-deprecated-headers
+  - -hicpp-vararg
+  - -modernize-deprecated-headers
+  - -modernize-use-trailing-return-type
+  - -readability-identifier-length
 CheckOptions:
   readability-identifier-naming.ClassCase: CamelCase
   readability-identifier-naming.FunctionCase: camelBack

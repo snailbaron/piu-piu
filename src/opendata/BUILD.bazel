@@ -1,0 +1,22 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+
+py_binary(
+    name = "aseprite2meta",
+    srcs = [
+        "aseprite2meta.py",
+    ],
+    deps = [
+        "//src/opendata/models",
+        "@piu-piu-python-deps//pyyaml",
+    ],
+)
+
+py_binary(
+    name = "generate_json_schema",
+    srcs = [
+        "generate_json_schema.py",
+    ],
+    deps = [
+        "//src/opendata/models",
+    ],
+)

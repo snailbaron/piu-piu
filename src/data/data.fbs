@@ -1,9 +1,6 @@
 namespace data;
 
-enum Something : uint8 {
-  One,
-  Two,
-  Three,
+enum Animation {
 }
 
 struct Frame {

@@ -1,0 +1,15 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
+py_library(
+    name = "models",
+    srcs = [
+        "aseprite.py",
+        "meta.py",
+        "model.py",
+    ],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@piu-piu-python-deps//pydantic",
+    ],
+)

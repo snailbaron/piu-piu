@@ -1,6 +1,15 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
 load("//bazel:flatbuffers.bzl", "fb_header")
 
 fb_header(
-    name = "data",
+    name = "data_header",
     src = "data.fbs",
+)
+
+cc_library(
+    name = "data",
+    hdrs = [":data_header"],
+    includes = ["."],
+    visibility = ["//visibility:public"],
+    deps = ["@flatbuffers"],
 )

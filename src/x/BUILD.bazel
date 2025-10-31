@@ -2,8 +2,14 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "x",
-    srcs = ["error.cpp"],
-    hdrs = ["error.hpp"],
+    srcs = [
+        "error.cpp",
+        "mmap.cpp",
+    ],
+    hdrs = [
+        "error.hpp",
+        "mmap.hpp",
+    ],
     include_prefix = "x",
     includes = ["."],
     visibility = ["//visibility:public"],

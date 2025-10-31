@@ -5,6 +5,7 @@ py_binary(
     srcs = [
         "aseprite2meta.py",
     ],
+    visibility = ["//visibility:public"],
     deps = [
         "//src/opendata/models",
         "@piu-piu-python-deps//pyyaml",
@@ -16,6 +17,7 @@ py_binary(
     srcs = [
         "generate_json_schema.py",
     ],
+    visibility = ["//visibility:public"],
     deps = [
         "//src/opendata/models",
     ],

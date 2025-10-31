@@ -39,6 +39,15 @@ wheels = [
 ]
 
 [[package]]
+name = "flatbuffers"
+version = "25.9.23"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9d/1f/3ee70b0a55137442038f2a33469cc5fddd7e0ad2abf83d7497c18a2b6923/flatbuffers-25.9.23.tar.gz", hash = "sha256:676f9fa62750bb50cf531b42a0a2a118ad8f7f797a511eda12881c016f093b12", size = 22067, upload-time = "2025-09-24T05:25:30.106Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ee/1b/00a78aa2e8fbd63f9af08c9c19e6deb3d5d66b4dda677a0f61654680ee89/flatbuffers-25.9.23-py2.py3-none-any.whl", hash = "sha256:255538574d6cb6d0a79a17ec8bc0d30985913b87513a01cce8bcdb6b4c44d0e2", size = 30869, upload-time = "2025-09-24T05:25:28.912Z" },
+]
+
+[[package]]
 name = "isort"
 version = "7.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -70,6 +79,7 @@ name = "piu-piu"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "flatbuffers" },
     { name = "pydantic" },
     { name = "pydantic-yaml" },
     { name = "pyyaml" },
@@ -84,6 +94,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "flatbuffers", specifier = ">=25.9.23" },
     { name = "pydantic", specifier = ">=2.12.3" },
     { name = "pydantic-yaml", specifier = ">=1.6.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },

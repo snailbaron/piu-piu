@@ -1,13 +1,10 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 cc_binary(
-    name = "packer",
-    srcs = [
-        "main.cpp",
-    ],
+    name = "pack",
+    srcs = ["main.cpp"],
     deps = [
         "//src/data",
-        "//src/x",
-        "@nlohmann_json//:json",
+        "@yaml-cpp",
     ],
 )

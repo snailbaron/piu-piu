@@ -1,23 +1,40 @@
 namespace data;
 
-enum Animation {
+struct Range {
+  begin:uint32;
+  end:uint32;
 }
 
-struct Frame {
-  x:int32;
-  y:int32;
-  w:int32;
-  h:int32;
+struct Size {
+  w:uint32;
+  h:uint32;
+}
+
+struct SheetFrame {
+  x:uint32;
+  y:uint32;
+  w:uint32;
+  h:uint32;
+  duration:uint32;
+}
+
+struct Animation {
+  name:Range;
+  frame_range:Range;
 }
 
 struct Sprite {
-  start_frame:uint32;
-  end_frame:uint32;
+  name:Range;
+  size:Size;
+  animation_frame:Range;
 }
 
 table Data {
   sheet:[uint8];
-  frames:[Frame];
+  text:string;
+  sheet_frames:[SheetFrame];
+  animations:[Animation];
+  sprites:[Sprite];
 }
 
 root_type Data;

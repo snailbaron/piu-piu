@@ -1,4 +1,5 @@
 load("//bazel:aseprite.bzl", "aseprite_export", "aseprite_export_sheet")
+load("//bazel:meta.bzl", "meta_export")
 
 aseprite_files = [
     "house.aseprite",
@@ -15,4 +16,11 @@ aseprite_export(
 aseprite_export_sheet(
     name = "sheet",
     srcs = aseprite_files,
+    out_json = "sheet.json",
+    out_sheet = "sheet.png",
+)
+
+meta_export(
+    name = "meta",
+    src = "sheet.json",
 )

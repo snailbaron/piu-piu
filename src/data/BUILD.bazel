@@ -1,5 +1,6 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("//bazel:flatbuffers.bzl", "fb_header")
+load("@rules_python//python:defs.bzl", "py_library")
+load("//bazel:flatbuffers.bzl", "fb_header", "fb_python")
 
 fb_header(
     name = "data_header",
@@ -12,4 +13,17 @@ cc_library(
     includes = ["."],
     visibility = ["//visibility:public"],
     deps = ["@flatbuffers"],
+)
+
+fb_python(
+    name = "data_python_files",
+    src = "data.fbs",
+)
+
+py_library(
+    name = "data_py",
+    srcs = [":data_python_files"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+    deps = ["@piu-piu-python-deps//flatbuffers"],
 )

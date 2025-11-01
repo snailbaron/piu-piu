@@ -1,3 +1,4 @@
+#include <concepts>
 #include <cstdint>
 #include <cstdlib>
 #include <filesystem>
@@ -8,35 +9,43 @@
 #include <data_generated.h>
 #include <yaml-cpp/yaml.h>
 
-std::vector<char> readFile(const std::filesystem::path& path)
+namespace {
+
+template <std::integral T>
+std::vector<T> readFile(const std::filesystem::path& path)
 {
+    static_assert(sizeof(T) == 1, "readFile<T>: T must have size 1");
+
     auto stream = std::ifstream{path, std::ios::binary | std::ios::ate};
     stream.exceptions(std::ios::badbit | std::ios::failbit);
 
     auto len = stream.tellg();
     stream.seekg(0);
 
-    auto data = std::vector<char>(len);
-    stream.read(data.data(), len);
+    auto data = std::vector<T>(len);
+    stream.read(reinterpret_cast<char*>(data.data()), len);
     stream.close();
 
     return data;
 }
 
+} // namespace
+
 int main(int argc, char* argv[])
 {
-    if (argc != 3) {
-        std::cerr << "usage: pack SHEET META\n";
+    if (argc != 4) {
+        std::cerr << "usage: pack SHEET META OUTPUT\n";
         return EXIT_FAILURE;
     }
     auto sheetPath = std::filesystem::path{argv[1]};
     auto metaPath = std::filesystem::path{argv[2]};
+    auto outputPath = std::filesystem::path{argv[3]};
 
     auto meta = YAML::LoadFile(metaPath);
 
     auto fbBuilder = flatbuffers::FlatBufferBuilder{};
 
-    auto sheet = readFile(sheetPath);
+    auto sheet = readFile<uint8_t>(sheetPath);
     auto text = std::string{};
     auto sheetFrames = std::vector<data::SheetFrame>{};
     auto animations = std::vector<data::Animation>{};
@@ -83,4 +92,22 @@ int main(int argc, char* argv[])
 
         sprites.emplace_back(fbSpriteName, fbSpriteSize, fbAnimationRange);
     }
+
+    auto fbSheet = fbBuilder.CreateVector(sheet);
+    auto fbText = fbBuilder.CreateString(text);
+    auto fbSheetFrames = fbBuilder.CreateVectorOfStructs(sheetFrames);
+    auto fbAnimations = fbBuilder.CreateVectorOfStructs(animations);
+    auto fbSprites = fbBuilder.CreateVectorOfStructs(sprites);
+
+    auto fbData = data::CreateData(
+        fbBuilder, fbSheet, fbText, fbSheetFrames, fbAnimations, fbSprites);
+
+    fbBuilder.Finish(fbData, "PIUF");
+
+    auto out = std::ofstream{outputPath, std::ios::binary};
+    out.exceptions(std::ios::badbit | std::ios::failbit);
+    out.write(
+        reinterpret_cast<char*>(fbBuilder.GetBufferPointer()),
+        fbBuilder.GetSize());
+    out.close();
 }

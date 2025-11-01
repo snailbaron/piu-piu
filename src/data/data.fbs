@@ -1,3 +1,5 @@
+file_identifier "PIUF";
+
 namespace data;
 
 struct Range {

@@ -18,9 +18,11 @@ aseprite_export_sheet(
     srcs = aseprite_files,
     out_json = "sheet.json",
     out_sheet = "sheet.png",
+    visibility = ["//visibility:public"],
 )
 
 meta_export(
     name = "meta",
     src = "sheet.json",
+    visibility = ["//visibility:public"],
 )

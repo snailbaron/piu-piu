@@ -1,0 +1,7 @@
+load("//bazel:data.bzl", "data_pack")
+
+data_pack(
+    name = "data",
+    meta = "//assets/images:meta",
+    sheet = "//assets/images:sheet.png",
+)

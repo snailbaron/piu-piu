@@ -5,4 +5,6 @@ common --copt=-fdiagnostics-color
 common --per_file_copt=//src/.*@-Wall,-Wextra,-Wpedantic
 common --per_file_copt=//src/.*@-Werror
 
+common --per_file_copt=//src/packer:pack.cpp@-Wno-deprecated-declarations
+
 common:release --compilation_mode=opt

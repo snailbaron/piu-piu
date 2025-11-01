@@ -47,3 +47,7 @@ git_override(
     commit = "abb61a688167623088f8768cc9264798df6a9d10",
     remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
 )
+
+info_repo = use_repo_rule("//bazel:info.bzl", "info_repo")
+
+info_repo(name = "info")

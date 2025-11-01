@@ -7,5 +7,6 @@ cc_binary(
         "timer.cpp",
         "timer.hpp",
     ],
+    visibility = ["//visibility:public"],
     deps = ["//src/sdlxx"],
 )

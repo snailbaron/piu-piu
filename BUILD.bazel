@@ -1,7 +1,16 @@
 load("@rules_python//python/uv:lock.bzl", "lock")
+load("//bazel:compdb.bzl", "compdb")
 
 lock(
     name = "requirements",
     srcs = ["pyproject.toml"],
     out = "requirements.txt",
+)
+
+compdb(
+    name = "compdb",
+    srcs = [
+        "//src/packer:pack",
+        "//src/piu-piu",
+    ],
 )

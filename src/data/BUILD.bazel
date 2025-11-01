@@ -9,10 +9,17 @@ fb_header(
 
 cc_library(
     name = "data",
-    hdrs = [":data_header"],
+    srcs = ["data.cpp"],
+    hdrs = [
+        "data.hpp",
+        ":data_header",
+    ],
     includes = ["."],
     visibility = ["//visibility:public"],
-    deps = ["@flatbuffers"],
+    deps = [
+        "//src/x",
+        "@flatbuffers",
+    ],
 )
 
 fb_python(

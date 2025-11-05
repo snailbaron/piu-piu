@@ -1,3 +1,6 @@
+common --registry=https://raw.githubusercontent.com/snailbaron/registry/main
+common --registry=https://bcr.bazel.build
+
 common --compilation_mode=dbg
 
 common --copt=-std=c++26 --host_copt=-std=c++26

@@ -85,6 +85,16 @@ void Mmap::close() noexcept
     }
 }
 
+Mmap::operator bool() const noexcept
+{
+    return _addr != nullptr;
+}
+
+const void* Mmap::ptr() const noexcept
+{
+    return _addr;
+}
+
 void swap(Mmap& lhs, Mmap& rhs) noexcept
 {
     std::swap(lhs._addr, rhs._addr);

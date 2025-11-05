@@ -9,6 +9,8 @@
 #include <data_generated.h>
 #include <yaml-cpp/yaml.h>
 
+namespace fb = data::fb;
+
 namespace {
 
 template <std::integral T>
@@ -47,21 +49,21 @@ int main(int argc, char* argv[])
 
     auto sheet = readFile<uint8_t>(sheetPath);
     auto text = std::string{};
-    auto sheetFrames = std::vector<data::SheetFrame>{};
-    auto animations = std::vector<data::Animation>{};
-    auto sprites = std::vector<data::Sprite>{};
+    auto sheetFrames = std::vector<fb::SheetFrame>{};
+    auto animations = std::vector<fb::Animation>{};
+    auto sprites = std::vector<fb::Sprite>{};
 
-    auto appendText = [&text](const std::string& t) -> data::Range
+    auto appendText = [&text](const std::string& t) -> fb::Range
     {
         uint32_t l = text.length();
         text += t;
         uint32_t r = text.length();
-        return data::Range{l, r};
+        return fb::Range{l, r};
     };
 
     for (const auto& spriteMeta : meta["sprites"]) {
         auto fbSpriteName = appendText(spriteMeta["name"].as<std::string>());
-        auto fbSpriteSize = data::Size{
+        auto fbSpriteSize = fb::Size{
             spriteMeta["size"]["w"].as<uint32_t>(),
             spriteMeta["size"]["h"].as<uint32_t>(),
         };
@@ -82,13 +84,13 @@ int main(int argc, char* argv[])
             }
             uint32_t frameRangeEnd = sheetFrames.size();
 
-            auto fbFrameRange = data::Range{frameRangeBegin, frameRangeEnd};
+            auto fbFrameRange = fb::Range{frameRangeBegin, frameRangeEnd};
 
             animations.emplace_back(fbAnimationName, fbFrameRange);
         }
         uint32_t animationRangeEnd = animations.size();
         auto fbAnimationRange =
-            data::Range{animationRangeBegin, animationRangeEnd};
+            fb::Range{animationRangeBegin, animationRangeEnd};
 
         sprites.emplace_back(fbSpriteName, fbSpriteSize, fbAnimationRange);
     }
@@ -99,7 +101,7 @@ int main(int argc, char* argv[])
     auto fbAnimations = fbBuilder.CreateVectorOfStructs(animations);
     auto fbSprites = fbBuilder.CreateVectorOfStructs(sprites);
 
-    auto fbData = data::CreateData(
+    auto fbData = fb::CreateData(
         fbBuilder, fbSheet, fbText, fbSheetFrames, fbAnimations, fbSprites);
 
     fbBuilder.Finish(fbData, "PIUF");

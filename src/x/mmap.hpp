@@ -18,6 +18,9 @@ public:
     void open(const std::filesystem::path& path);
     void close() noexcept;
 
+    explicit operator bool() const noexcept;
+    const void* ptr() const noexcept;
+
     friend void swap(Mmap& lhs, Mmap& rhs) noexcept;
 
 private:

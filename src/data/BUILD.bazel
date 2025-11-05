@@ -9,7 +9,10 @@ fb_header(
 
 cc_library(
     name = "data",
-    srcs = ["data.cpp"],
+    srcs = [
+        "data.cpp",
+        "iterator.hpp",
+    ],
     hdrs = [
         "data.hpp",
         ":data_header",

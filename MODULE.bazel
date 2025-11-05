@@ -8,6 +8,9 @@ bazel_dep(name = "rules_foreign_cc", version = "0.14.0")
 bazel_dep(name = "rules_python", version = "1.6.3")
 bazel_dep(name = "yaml-cpp", version = "0.8.0")
 
+# From snailbaron registry
+bazel_dep(name = "snailbaron-compilation-database", version = "0.0.1")
+
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.defaults(python_version = "3.14")
 python.toolchain(python_version = "3.14")

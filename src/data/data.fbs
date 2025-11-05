@@ -1,6 +1,6 @@
 file_identifier "PIUF";
 
-namespace data;
+namespace data.fb;
 
 struct Range {
   begin:uint32;
@@ -28,7 +28,7 @@ struct Animation {
 struct Sprite {
   name:Range;
   size:Size;
-  animation_frame:Range;
+  animation_range:Range;
 }
 
 table Data {

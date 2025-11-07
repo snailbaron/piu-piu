@@ -1,9 +1,11 @@
 module(name = "piu-piu")
 
+bazel_dep(name = "bazel_env.bzl", version = "0.5.0")
 bazel_dep(name = "flatbuffers", version = "25.2.10")
 bazel_dep(name = "nlohmann_json", version = "3.12.0")
+bazel_dep(name = "platforms", version = "1.0.0")
 bazel_dep(name = "rapidyaml", version = "0.9.0")
-bazel_dep(name = "rules_cc", version = "0.2.12")
+bazel_dep(name = "rules_cc", version = "0.2.14")
 bazel_dep(name = "rules_foreign_cc", version = "0.14.0")
 bazel_dep(name = "rules_python", version = "1.6.3")
 bazel_dep(name = "yaml-cpp", version = "0.8.0")
@@ -26,6 +28,10 @@ pip.parse(
 )
 use_repo(pip, "piu-piu-python-deps")
 
+info = use_repo_rule("//bazel:info.bzl", "info")
+
+info(name = "info")
+
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
@@ -42,15 +48,12 @@ filegroup(
     url = "https://github.com/libsdl-org/SDL/releases/download/release-3.2.24/SDL3-3.2.24.tar.gz",
 )
 
-# Hedron's Compile Commands Extractor for Bazel
-# https://github.com/hedronvision/bazel-compile-commands-extractor
-bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
-git_override(
-    module_name = "hedron_compile_commands",
-    commit = "abb61a688167623088f8768cc9264798df6a9d10",
-    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+http_archive(
+    name = "llvm",
+    build_file_content = 'exports_files(glob(["**"]))',
+    integrity = "sha256-YnnXj+7rjoOaOX8LynscBZSXIiTVlSVJZBZlPZucB38=",
+    strip_prefix = "LLVM-21.1.5-Linux-X64",
+    url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.5/LLVM-21.1.5-Linux-X64.tar.xz",
 )
 
-info_repo = use_repo_rule("//bazel:info.bzl", "info_repo")
-
-info_repo(name = "info")
+register_toolchains("//bazel/toolchains:clang")

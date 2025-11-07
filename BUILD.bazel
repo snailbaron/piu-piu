@@ -1,3 +1,4 @@
+load("@bazel_env.bzl", "bazel_env")
 load("@rules_python//python/uv:lock.bzl", "lock")
 load("@snailbaron-compilation-database//:compdb.bzl", "compilation_database")
 
@@ -16,4 +17,12 @@ compilation_database(
         "//src/sdlxx",
         "//src/x",
     ],
+)
+
+bazel_env(
+    name = "env",
+    tools = {
+        "clang-format": "@llvm//:bin/clang-format",
+        "clang-tidy": "@llvm//:bin/clang-tidy",
+    },
 )

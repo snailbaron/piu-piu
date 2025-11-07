@@ -3,7 +3,7 @@ common --registry=https://bcr.bazel.build
 
 common --compilation_mode=dbg
 
-common --copt=-std=c++26 --host_copt=-std=c++26
+common --cxxopt=-std=c++26 --host_cxxopt=-std=c++26
 common --copt=-fdiagnostics-color --host_copt=-fdiagnostics-color
 
 common --per_file_copt=//src/.*@-Wall,-Wextra,-Wpedantic

@@ -1,0 +1,48 @@
+load("@rules_cc//cc/toolchains:cc_toolchain.bzl", "cc_toolchain")
+load("config.bzl", "cc_toolchain_config", "tool_targets")
+
+filegroup(name = "empty")
+
+filegroup(
+    name = "ar_files",
+    srcs = [tool_targets.llvm_ar],
+)
+
+filegroup(
+    name = "compiler_files",
+    srcs = [
+        tool_targets.clang,
+        tool_targets.clangxx,
+    ],
+)
+
+filegroup(
+    name = "linker_files",
+    srcs = [tool_targets.clangxx],
+)
+
+filegroup(
+    name = "all_files",
+    srcs = [
+        ":ar_files",
+        ":compiler_files",
+        ":linker_files",
+    ],
+)
+
+cc_toolchain_config(
+    name = "config",
+)
+
+cc_toolchain(
+    name = "clang",
+    all_files = ":all_files",
+    ar_files = ":ar_files",
+    compiler_files = ":compiler_files",
+    dwp_files = ":empty",
+    linker_files = ":linker_files",
+    objcopy_files = ":empty",
+    strip_files = ":empty",
+    toolchain_config = ":config",
+    toolchain_identifier = "clang",
+)

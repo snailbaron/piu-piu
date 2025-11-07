@@ -91,10 +91,11 @@ def _cc_toolchain_config_impl(ctx):
             ),
         ],
         cxx_builtin_include_directories = [
-            "/usr/include",
-            info.llvm_root + "/include/c++",
-            info.llvm_root + "/include/x86_64-unknown-linux-gnu/c++",
+            info.llvm_root + "/include/x86_64-unknown-linux-gnu/c++/v1",
+            info.llvm_root + "/include/c++/v1",
             info.llvm_root + "/lib/clang/21/include",
+            "/usr/local/include",
+            "/usr/include",
         ],
     )
 

@@ -17,6 +17,7 @@ compilation_database(
         "//src/sdlxx",
         "//src/x",
     ],
+    add_builtin_include_directories = True,
 )
 
 bazel_env(

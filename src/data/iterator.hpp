@@ -1,38 +1,41 @@
 #pragma once
 
 #include <cstddef>
+#include <iostream>
 #include <iterator>
 
 #include <flatbuffers/flatbuffers.h>
 
+#include <data_generated.h>
+
 namespace data {
 
-template <class T>
+template <class Fb, class Wrapper>
 class Iterator {
-    static_assert(std::random_access_iterator<Iterator<T>>);
+    // static_assert(std::random_access_iterator<Iterator<T>>);
 
 public:
     using difference_type = ptrdiff_t;
-    using value_type = T;
+    using value_type = Wrapper;
 
-    Iterator(const flatbuffers::Vector<const T*>* fbContainer, ptrdiff_t index)
-        : _fbContainer(fbContainer)
-        , _index(index)
+    Iterator(const fb::Data* fbData, const Fb* ptr)
+        : _fbData(fbData)
+        , _ptr(ptr)
     { }
 
-    const T& operator*() const
+    Wrapper operator*() const
     {
-        return *_fbContainer->Get(_index);
+        return Wrapper{_fbData, _ptr};
     }
 
-    const T& operator[](ptrdiff_t n) const
+    Wrapper operator[](ptrdiff_t n) const
     {
-        return *_fbContainer->Get(_index + n);
+        return Wrapper{_fbData, _ptr + n};
     }
 
     Iterator& operator++()
     {
-        _index++;
+        _ptr++;
         return *this;
     }
 
@@ -45,13 +48,13 @@ public:
 
     Iterator& operator+=(ptrdiff_t n)
     {
-        _index += n;
+        _ptr += n;
         return *this;
     }
 
     Iterator& operator--()
     {
-        _index--;
+        _ptr--;
         return *this;
     }
 
@@ -64,68 +67,74 @@ public:
 
     Iterator& operator-=(ptrdiff_t n)
     {
-        _index -= n;
+        _ptr -= n;
         return *this;
     }
 
     ptrdiff_t operator-(const Iterator& other) const
     {
-        return _index - other._index;
+        return _ptr - other._ptr;
     }
 
     auto operator<=>(const Iterator&) const = default;
 
 private:
-    const flatbuffers::Vector<const T*>* _fbContainer = nullptr;
-    ptrdiff_t _index = 0;
+    const fb::Data* _fbData = nullptr;
+    const Fb* _ptr = nullptr;
 };
 
-template <class T>
-Iterator<T> operator+(Iterator<T> it, ptrdiff_t n)
+template <class Fb, class Wrapper>
+Iterator<Fb, Wrapper> operator+(Iterator<Fb, Wrapper> it, ptrdiff_t n)
 {
     it += n;
     return it;
 }
 
-template <class T>
-Iterator<T> operator+(ptrdiff_t n, Iterator<T> it)
+template <class Fb, class Wrapper>
+Iterator<Fb, Wrapper> operator+(ptrdiff_t n, Iterator<Fb, Wrapper> it)
 {
     return it + n;
 }
 
-template <class T>
-Iterator<T> operator-(Iterator<T> it, ptrdiff_t n)
+template <class Fb, class Wrapper>
+Iterator<Fb, Wrapper> operator-(Iterator<Fb, Wrapper> it, ptrdiff_t n)
 {
     it -= n;
     return it;
 }
 
-template <class T>
+template <class Fb, class Wrapper>
 class Range {
 public:
-    explicit Range(
-        const flatbuffers::Vector<const T*>* fbContainer,
-        size_t begin,
-        size_t end)
-        : _fbContainer(fbContainer)
-        , _begin(begin)
-        , _end(end)
+    Range(const fb::Data* fbData, const flatbuffers::Vector<const Fb*>* vector)
+        : _fbData(fbData)
+        , _begin(reinterpret_cast<const Fb*>(vector->Data()))
+        , _end(reinterpret_cast<const Fb*>(vector->Data()) + vector->size())
     { }
 
-    Iterator<T> begin() const
+    Range(
+        const fb::Data* fbData,
+        const flatbuffers::Vector<const Fb*>* vector,
+        const fb::Range& range)
+        : _fbData(fbData)
+        , _begin(reinterpret_cast<const Fb*>(vector->Data()) + range.begin())
+        , _end(reinterpret_cast<const Fb*>(vector->Data()) + range.end())
+    { }
+
+    Iterator<Fb, Wrapper> begin() const
     {
-        return {_fbContainer, _begin};
+        return {_fbData, _begin};
     }
 
-    Iterator<T> end() const
+    Iterator<Fb, Wrapper> end() const
     {
-        return {_fbContainer, _end};
+        return {_fbData, _end};
     }
 
 private:
-    const flatbuffers::Vector<const T*>* _fbContainer = nullptr;
-    size_t _begin = 0;
-    size_t _end = 0;
+    const fb::Data* _fbData = nullptr;
+    const Fb* _begin = nullptr;
+    const Fb* _end = nullptr;
 };
 
 } // namespace data

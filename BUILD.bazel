@@ -13,6 +13,7 @@ compilation_database(
     srcs = [
         "//src/data",
         "//src/packer:pack",
+        "//src/packer:unpack",
         "//src/piu-piu",
         "//src/sdlxx",
         "//src/x",

@@ -2,6 +2,7 @@ common --registry=https://raw.githubusercontent.com/snailbaron/registry/main
 common --registry=https://bcr.bazel.build
 
 common --compilation_mode=dbg
+common --verbose_failures
 
 common --cxxopt=-std=c++26 --host_cxxopt=-std=c++26
 common --copt=-fdiagnostics-color --host_copt=-fdiagnostics-color

@@ -1,6 +1,9 @@
 #pragma once
 
-class Sprite { };
+class Sprite {
+private:
+
+};
 
 class Screen {
 private:

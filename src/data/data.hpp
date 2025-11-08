@@ -2,6 +2,9 @@
 
 #include <cstddef>
 #include <filesystem>
+#include <format>
+#include <iostream>
+#include <iterator>
 #include <span>
 
 #include <x/mmap.hpp>
@@ -14,49 +17,29 @@ namespace data {
 
 class Animation {
 public:
-    std::string_view name() const
-    {
-        return _fbData->text()->string_view().substr(
-            _fbAnimation->name().begin(),
-            _fbAnimation->name().end() - _fbAnimation->name().begin());
-    }
-
-    Range<fb::SheetFrame> frames() const
-    {
-        return Range{
-            _fbData->sheet_frames(),
-            _fbAnimation->frame_range().begin(),
-            _fbAnimation->frame_range().end()};
-    }
+    std::string_view name() const;
+    std::span<const fb::SheetFrame> frames() const;
 
 private:
+    friend class Iterator<fb::Animation, Animation>;
+
+    Animation(const fb::Data* fbData, const fb::Animation* fbAnimation);
+
     const fb::Data* _fbData = nullptr;
     const fb::Animation* _fbAnimation = nullptr;
 };
 
 class Sprite {
 public:
-    std::string_view name() const
-    {
-        return _fbData->text()->string_view().substr(
-            _fbSprite->name().begin(),
-            _fbSprite->name().end() - _fbSprite->name().begin());
-    }
-
-    const fb::Size& size() const
-    {
-        return _fbSprite->size();
-    }
-
-    Range<fb::Animation> animations() const
-    {
-        return Range{
-            _fbData->animations(),
-            _fbSprite->animation_range().begin(),
-            _fbSprite->animation_range().end()};
-    }
+    std::string_view name() const;
+    const fb::Size& size() const;
+    Range<fb::Animation, Animation> animations() const;
 
 private:
+    friend class Iterator<fb::Sprite, Sprite>;
+
+    Sprite(const fb::Data* fbData, const fb::Sprite* fbSprite);
+
     const fb::Data* _fbData = nullptr;
     const fb::Sprite* _fbSprite = nullptr;
 };
@@ -64,13 +47,8 @@ private:
 class Data {
 public:
     Data(const std::filesystem::path& path);
-
     std::span<const std::byte> sheet() const;
-
-    Range<fb::Sprite> sprites() const
-    {
-        return Range{_fbData->sprites(), 0, _fbData->sprites()->size()};
-    }
+    Range<fb::Sprite, Sprite> sprites() const;
 
 private:
     x::Mmap _mmap;

@@ -5,6 +5,7 @@ load("//bazel:flatbuffers.bzl", "fb_header", "fb_python")
 fb_header(
     name = "data_header",
     src = "data.fbs",
+    visibility = ["//visibility:public"],
 )
 
 cc_library(

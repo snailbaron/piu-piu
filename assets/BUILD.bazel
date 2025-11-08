@@ -4,4 +4,5 @@ data_pack(
     name = "data",
     meta = "//assets/images:meta",
     sheet = "//assets/images:sheet.png",
+    visibility = ["//visibility:public"],
 )

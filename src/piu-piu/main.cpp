@@ -1,9 +1,15 @@
 #include "timer.hpp"
 
+#include <data.hpp>
+
 #include <sdlxx.hpp>
+
+#include <cstdlib>
 
 int main()
 {
+    auto dataRoot = data::Data{"assets/data.piuf"};
+
     auto sdl = sdl::Init{SDL_INIT_AUDIO | SDL_INIT_VIDEO};
 
     auto window = sdl::Window{"Piu-Piu", 800, 600, SDL_WINDOW_FULLSCREEN};
